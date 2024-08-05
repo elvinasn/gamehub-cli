@@ -4,10 +4,12 @@ The **GameHub CLI** is a command-line tool for game developers to upload and man
 
 ## Installation
 
-First, ensure you have Node.js installed on your system. Then, install the CLI via npm:
+First, ensure you have Node.js installed on your system. Then, install the CLI via npm or yarn:
 
 ```bash
 npm install -g gamehub-cli
+# or
+yarn global add gamehub-cli
 ```
 
 ## Commands & Usage
@@ -16,7 +18,7 @@ First, you have to have an account on the GS Dashboard and have access to the Ga
 
 ### `gamehub login`
 
-Logs in to the GameHub platform.
+To login to the GameHub platform, run the following command:
 
 ```bash
 gamehub login
@@ -24,7 +26,7 @@ gamehub login
 
 ### `gamehub logout`
 
-Logs out of the GameHub platform.
+To logout from the GameHub platform, run the following command:
 
 ```bash
 gamehub logout
@@ -32,7 +34,7 @@ gamehub logout
 
 ### `gamehub whoami`
 
-Displays the current user's information.
+To check the current user, run the following command:
 
 ```bash
 gamehub whoami
@@ -40,7 +42,7 @@ gamehub whoami
 
 ### `gamehub init`
 
-Initializes the configuration for the current directory with the organization, game, and platform. This command must be run in the root directory of the game project.
+To initialize the configuration for the current directory with the organization, game, and platform use this command. This command must be run in the root directory of the game project.
 
 ```bash
 gamehub init
@@ -48,7 +50,7 @@ gamehub init
 
 ### `gamehub info`
 
-Provides information about the current configuration.
+To get the information about the current game, run the following command:
 
 ```bash
 gamehub info
@@ -56,7 +58,7 @@ gamehub info
 
 ### `gamehub build`
 
-Uploads the game assets to the GameHub platform.
+To upload game assets to the GameHub platform, run the following command:
 
 ```bash
 gamehub build
@@ -64,7 +66,7 @@ gamehub build
 
 ### `gamehub delete-version`
 
-Deletes a specific version of the game.
+To delete a version of the game, run the following command:
 
 ```bash
 gamehub delete-version
