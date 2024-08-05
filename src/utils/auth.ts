@@ -119,6 +119,7 @@ const html = (isSuccess: boolean) => {
       font-size: 32px;
       color: #FFFFFF;
       margin: 0;
+      margin-bottom: 8px;
     }
 
     .card p {
