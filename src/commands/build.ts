@@ -18,6 +18,7 @@ import { calculateChecksums, uploadFile } from "../utils/upload.js";
 import { GameVersionStatus } from "../types/game-version-status.js";
 import pLimit from "p-limit";
 import { GetSignedUrlsResponse } from "../types/get-signed-urls-response.js";
+import { runWithLoader } from "../utils/loader.js";
 
 function formatBytes(bytes: number) {
   const kb = 1024;
@@ -107,7 +108,6 @@ build.description("Build and upload game assets").action(async () => {
       return;
     }
   }
-
   const files = getFilesRecursively(directory).map((filePath) =>
     path.relative(directory, filePath)
   );
@@ -115,19 +115,27 @@ build.description("Build and upload game assets").action(async () => {
   if (localConfigIndex !== -1) {
     files.splice(localConfigIndex, 1);
   }
-
-  const checksums = await calculateChecksums(directory, files);
-  let data: GetSignedUrlsResponse;
+  const checksums = await runWithLoader(calculateChecksums(directory, files), {
+    errorText: "Failed to calculate checksums.",
+    loadingText: "Calculating checksums...",
+  });
+  if (!checksums) {
+    return;
+  }
+  let data: GetSignedUrlsResponse | null;
   try {
-    data = await getSignedUrls(
-      token,
-      config.game.id,
-      config.platform,
-      version,
-      checksums
+    data = await runWithLoader(
+      getSignedUrls(token, config.game.id, config.platform, version, checksums),
+      {
+        errorText: "Failed to get signed URLs.",
+        loadingText: "Getting ready to upload...",
+      }
     );
   } catch (error: any) {
     console.error("Failed to get signed URLs:", error.message);
+    return;
+  }
+  if (!data) {
     return;
   }
 
