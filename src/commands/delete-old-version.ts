@@ -1,12 +1,17 @@
 import { Command } from "commander";
 import inquirer from "inquirer";
-import { deletePendingVersion, getPendingVersions } from "../utils/api.js";
+import {
+  getOldVersions,
+  deleteOldVersion as deleteOldVersionApi,
+} from "../utils/api.js";
 import { loadLocalConfig, loadToken, loadUserData } from "../utils/config.js";
 import { runWithLoader } from "../utils/loader.js";
+import { checkVersion } from "../utils/common.js";
 
-const deleteVersion = new Command("delete-version");
+const deleteOldVersion = new Command("delete-old-version");
 
-deleteVersion.description("Delete a pending game version").action(async () => {
+deleteOldVersion.description("Delete old game version").action(async () => {
+  await checkVersion();
   const token = loadToken();
   const userData = loadUserData();
   if (!token || !userData) {
@@ -21,19 +26,19 @@ deleteVersion.description("Delete a pending game version").action(async () => {
     return;
   }
 
-  const pendingVersions = await runWithLoader(
-    getPendingVersions(token, config.game.id, config.platform),
+  const oldVersions = await runWithLoader(
+    getOldVersions(token, config.game.id, config.platform),
     {
       loadingText: "Loading versions...",
       errorText: "Failed to load versions.",
     }
   );
 
-  if (!pendingVersions?.versions || !pendingVersions.versions.length) {
-    console.log("There are no pending versions to delete.");
+  if (!oldVersions?.versions || !oldVersions.versions.length) {
+    console.log("There are no old versions to delete.");
     return;
   }
-  const versions = pendingVersions.versions;
+  const versions = oldVersions.versions;
   const versionQuestion = {
     type: "list",
     name: "version",
@@ -51,11 +56,11 @@ deleteVersion.description("Delete a pending game version").action(async () => {
     });
 
   try {
-    await deletePendingVersion(token, config.game.id, config.platform, version);
+    await deleteOldVersionApi(token, config.game.id, config.platform, version);
     console.log(`Version ${version} deleted successfully.`);
   } catch (error: any) {
     console.error("Failed to delete version:", error.message);
   }
 });
 
-export default deleteVersion;
+export default deleteOldVersion;

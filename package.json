@@ -1,6 +1,6 @@
 {
   "name": "gamehub-cli",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "license": "MIT",
   "repository": {
     "type": "git",
@@ -22,6 +22,7 @@
     "fs-extra": "^11.2.0",
     "got": "^14.4.2",
     "inquirer": "^10.0.3",
+    "latest-version": "^9.0.0",
     "open": "^10.1.0",
     "ora": "^8.0.1",
     "p-limit": "^6.1.0",
@@ -30,9 +31,9 @@
   "devDependencies": {
     "@types/cli-progress": "^3.11.6",
     "@types/fs-extra": "^11.0.4",
+    "@types/got": "^9.6.12",
     "@types/node": "^20.14.11",
     "@types/title": "^3.4.3",
-    "@types/got": "^9.6.12",
     "typescript": "^5.5.4"
   }
 }

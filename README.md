@@ -64,10 +64,18 @@ To upload game assets to the GameHub platform, run the following command:
 gamehub build
 ```
 
-### `gamehub delete-version`
+### `gamehub delete-pending-version`
 
-To delete a version of the game, run the following command:
+To delete a pending version of the game, run the following command:
 
 ```bash
-gamehub delete-version
+gamehub delete-pending-version
+```
+
+### `gamehub delete-old-version`
+
+To delete an old version of the game, run the following command:
+
+```bash
+gamehub delete-old-version
 ```

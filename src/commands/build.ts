@@ -19,6 +19,7 @@ import { GameVersionStatus } from "../types/game-version-status.js";
 import pLimit from "p-limit";
 import { GetSignedUrlsResponse } from "../types/get-signed-urls-response.js";
 import { runWithLoader } from "../utils/loader.js";
+import { checkVersion } from "../utils/common.js";
 
 function formatBytes(bytes: number) {
   const kb = 1024;
@@ -44,6 +45,7 @@ function formatSpeed(speed: number) {
 const build = new Command("build");
 
 build.description("Build and upload game assets").action(async () => {
+  await checkVersion();
   const token = loadToken();
   if (!token) {
     console.log(
@@ -87,7 +89,7 @@ build.description("Build and upload game assets").action(async () => {
       e.message.includes("There are existing pending versions")
     ) {
       console.log(
-        "Either use a pending version or delete the pending version using the delete-version command."
+        "Either use a pending version or delete the pending version using the delete-pending-version command."
       );
     }
     return;

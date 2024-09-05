@@ -5,12 +5,14 @@ import { getGames, getOrganisations } from "../utils/api.js";
 import { loadToken, loadUserData, saveLocalConfig } from "../utils/config.js";
 import { validateDirectory } from "../utils/file-utils.js";
 import { runWithLoader } from "../utils/loader.js";
+import { checkVersion } from "../utils/common.js";
 
 const init = new Command("init");
 
 init
   .description("Initialize configuration with organization and game")
   .action(async () => {
+    await checkVersion();
     const token = loadToken();
     const userData = loadUserData();
     if (!token || !userData) {

@@ -7,7 +7,7 @@ import { GameType } from "../types/game-type.js";
 import { User } from "../types/user.js";
 import { GameVersionStatus } from "../types/game-version-status.js";
 import { GetVersionStatusResponse } from "../types/get-version-status-response.js";
-import { GetPendingVersionsResponse } from "../types/get-pending-versions-response.js";
+import { GetVersionsResponse } from "../types/get-versions-response.js";
 
 const API_URL = "https://gs-launcher-backend-hbfkrtocca-ew.a.run.app";
 
@@ -22,6 +22,7 @@ const K_ACK_PATH = "/acknowledge-upload";
 const K_AUTH_PATH = "/auth";
 const K_LOGIN_PATH = "/login";
 const K_PENDING_VERSIONS_PATH = "/pending-versions";
+const K_OLD_VERSIONS_PATH = "/old-versions";
 
 export enum METHOD {
   POST = "POST",
@@ -54,8 +55,23 @@ export async function getPendingVersions(
   gameId: string,
   platform: Platform
 ) {
-  const data = await makeRequest<GetPendingVersionsResponse>(
+  const data = await makeRequest<GetVersionsResponse>(
     `${API_URL}${K_ADMIN_PATH}${K_GAME_ASSETS_PATH}/${gameId}${K_PENDING_VERSIONS_PATH}`,
+    METHOD.GET,
+    accessToken,
+    undefined,
+    { platform }
+  );
+  return data;
+}
+
+export async function getOldVersions(
+  accessToken: string,
+  gameId: string,
+  platform: Platform
+) {
+  const data = await makeRequest<GetVersionsResponse>(
+    `${API_URL}${K_ADMIN_PATH}${K_GAME_ASSETS_PATH}/${gameId}${K_OLD_VERSIONS_PATH}`,
     METHOD.GET,
     accessToken,
     undefined,
@@ -72,6 +88,20 @@ export async function deletePendingVersion(
 ) {
   await makeRequest<void>(
     `${API_URL}${K_ADMIN_PATH}${K_GAME_ASSETS_PATH}/${gameId}${K_PENDING_VERSIONS_PATH}`,
+    METHOD.DELETE,
+    accessToken,
+    { platform, version }
+  );
+}
+
+export async function deleteOldVersion(
+  accessToken: string,
+  gameId: string,
+  platform: Platform,
+  version: string
+) {
+  await makeRequest<void>(
+    `${API_URL}${K_ADMIN_PATH}${K_GAME_ASSETS_PATH}/${gameId}${K_OLD_VERSIONS_PATH}`,
     METHOD.DELETE,
     accessToken,
     { platform, version }

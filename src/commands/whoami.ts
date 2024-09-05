@@ -1,11 +1,13 @@
 import { Command } from "commander";
 import { clearToken, loadToken, loadUserData } from "../utils/config.js";
+import { checkVersion } from "../utils/common.js";
 
 const whoami = new Command("whoami");
 
 whoami
   .description("Display current logged-in user information")
   .action(async () => {
+    await checkVersion();
     const token = loadToken();
     if (!token) {
       console.log(

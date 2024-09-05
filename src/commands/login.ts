@@ -2,11 +2,13 @@ import { Command } from "commander";
 import { getAccessToken } from "../utils/auth.js";
 import { clearToken, saveToken, saveUserData } from "../utils/config.js";
 import { getUser } from "../utils/api.js";
+import { checkVersion } from "../utils/common.js";
 
 const login = new Command("login");
 
 login.description("Log in and get access token").action(async () => {
   try {
+    await checkVersion();
     const token = await getAccessToken();
 
     const user = await getUser(token);

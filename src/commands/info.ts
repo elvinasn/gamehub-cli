@@ -1,11 +1,13 @@
 import { Command } from "commander";
 import { loadLocalConfig, loadToken } from "../utils/config.js";
+import { checkVersion } from "../utils/common.js";
 
 const info = new Command("info");
 
 info
   .description("Information about current folder configuration")
   .action(async () => {
+    await checkVersion();
     const token = loadToken();
     if (!token) {
       console.log(
