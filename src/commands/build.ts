@@ -156,7 +156,7 @@ build.description("Build and upload game assets").action(async () => {
     {
       format:
         "{bar}" +
-        "| {percentage}% | ETA: {eta}s | {current}/{size} | Speed: {speed}",
+        "| {percentage}% | ETA: {timeLeft} | {current}/{size} | Speed: {speed}",
     },
     Presets.shades_classic
   );
